@@ -13,7 +13,17 @@ attack = 1
 defense = 1
 relv = 1
 
+peasant_health = 0
+peasant_kuld = 0
+peasant_attack = 0
+peasant_defense = 0
+
 def peasant():
+    global peasent_health
+    global peasant_kuld
+    global peasant_attack
+    global peasant_defense
+    
     peasant_health = 50
     peasant_kuld = 8
     peasant_attack = 1
@@ -31,7 +41,13 @@ def valikud():
     valik = int(input('Vali enda tegevus: '))
     return valik
 
-def kaklus():
+def kaklus(peasant_health, peasant_kuld, peasant_attack, peasant_defense):
+    global health
+    global kuld
+    global attack
+    global defense
+    global relv
+    
     while peasant_health >= 0:
         valik = valikud()
         
@@ -93,3 +109,5 @@ def kaklus():
             print(f'Vastane tegi sulle {peasant_dmg} kahju.')
             print(f'Sinu elud: {health}')
             print('─────────────────────────────────────')
+            
+kaklus(150, 10, 10)
