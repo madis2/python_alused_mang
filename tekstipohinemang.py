@@ -15,8 +15,6 @@ relv = 0
 mook_dmg = random.randint(15,20)
 protsent = 30
 
-print('Kohtad kurja talupoega kes tahab rünnata sind.')
-
 def valikud():
     print('[1] Ründa vastast.')
     print('[2] Bloki (30% tõenäosus). ')
@@ -104,5 +102,6 @@ def kaklus(peasant_health, peasant_kuld, peasant_attack):
     else:
         print('Muutusid pedeks ja sind tapeti koha peal!')
         print('The end!')
-            
+
+print('Kohtad kurja talupoega kes tahab rünnata sind.') 
 kaklus(50, random.randint(5,15), 1.5)
