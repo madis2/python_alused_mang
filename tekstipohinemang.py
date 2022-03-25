@@ -5,7 +5,9 @@
 
 import random
 
-# Damage
+#### Damage ####
+
+#### Stats ####
 
 health = 100
 kuld = 10
@@ -15,6 +17,8 @@ relv = 0
 mook_dmg = random.randint(15,20)
 protsent = 30
 
+# Funktsioon valikud võitluse jaoks.
+
 def valikud():
     print('[1] Ründa vastast.')
     print('[2] Bloki (30% tõenäosus). ')
@@ -22,6 +26,8 @@ def valikud():
     
     valik = int(input('Vali enda tegevus: '))
     return valik
+
+# Funktsioon kaklus võitluste jaoks. 
 
 def kaklus(peasant_health, peasant_kuld, peasant_attack):
     global health
