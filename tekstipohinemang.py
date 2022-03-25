@@ -11,25 +11,9 @@ health = 100
 kuld = 10
 attack = 1
 defense = 1
-relv = 1
-
-peasant_health = 0
-peasant_kuld = 0
-peasant_attack = 0
-peasant_defense = 0
-
-def peasant():
-    global peasent_health
-    global peasant_kuld
-    global peasant_attack
-    global peasant_defense
-    
-    peasant_health = 50
-    peasant_kuld = 8
-    peasant_attack = 1
-    peasant_defense = 1
-
-mook_dmg = random.randint(5,15)
+relv = 0
+mook_dmg = random.randint(15,20)
+protsent = 30
 
 print('Kohtad kurja talupoega kes tahab rünnata sind.')
 
@@ -41,24 +25,27 @@ def valikud():
     valik = int(input('Vali enda tegevus: '))
     return valik
 
-def kaklus(peasant_health, peasant_kuld, peasant_attack, peasant_defense):
+def kaklus(peasant_health, peasant_kuld, peasant_attack):
     global health
     global kuld
     global attack
     global defense
     global relv
+    global mook_dmg
+    global protsent
     
-    while peasant_health >= 0:
+    while peasant_health >= 0 and health >= 0:
         valik = valikud()
         
-        dmg = random.randint(5,15) # Kahju mis teed vastasele
-        peasant_dmg = random.randint(1,10) # Kahju mis tehakse sulle 
-        protsent = 30
+        dmg = random.randint(5,10) # Kahju mis teed vastasele
+        dmg = dmg*attack
+        peasant_dmg = random.randint(1,5) # Kahju mis tehakse sulle
+        peasant_dmg = peasant_dmg
         
         print('─────────────────────────────────────')
         
         if valik == 1:
-            if relv == None:
+            if relv == 0:
                 if dmg >= 12:
                     peasant_health -= dmg
                     health -= peasant_dmg
@@ -84,6 +71,7 @@ def kaklus(peasant_health, peasant_kuld, peasant_attack, peasant_defense):
                     print(f'Vastase elud: {peasant_health}')
                     print('─────────────────────────────────────')
             else:
+                mook_dmg = mook_dmg
                 peasant_health -= mook_dmg
                 health -= peasant_dmg
                 print(f'Tegid mõõgaga {mook_dmg} kahju.')
@@ -96,11 +84,10 @@ def kaklus(peasant_health, peasant_kuld, peasant_attack, peasant_defense):
                 health -= peasant_dmg
                 print(f'Vastane tegi sulle {peasant_dmg}.')
                 print(f'Sinu elud: {health}')
+                print(f'Vastase elud: {peasant_health}')
                 print('─────────────────────────────────────')
             else:
-                blokk = random.randint(0,3)
-                peasant_health -= blokk
-                print(f'Blokeerides löögi tegid vastasele {blokk} kahju.')
+                print(f'Blokk õnnestus')
                 print('─────────────────────────────────────')
         else:
             health += 10
@@ -110,4 +97,12 @@ def kaklus(peasant_health, peasant_kuld, peasant_attack, peasant_defense):
             print(f'Sinu elud: {health}')
             print('─────────────────────────────────────')
             
-kaklus(150, 10, 10)
+    if peasant_health <= 0:
+        print('Õnnitlen kunn, oled tapnud oma vastase!')
+        kuld += peasant_kuld
+        peasant_kuld -= peasant_kuld
+    else:
+        print('Muutusid pedeks ja sind tapeti koha peal!')
+        print('The end!')
+            
+kaklus(50, random.randint(5,15), 1.5)
