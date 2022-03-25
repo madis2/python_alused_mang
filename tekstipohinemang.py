@@ -109,5 +109,7 @@ def kaklus(peasant_health, peasant_kuld, peasant_attack):
         print('Muutusid pedeks ja sind tapeti koha peal!')
         print('The end!')
 
+# Võitlus algab
+        
 print('Kohtad kurja talupoega kes tahab rünnata sind.') 
 kaklus(50, random.randint(5,15), 1.5)
