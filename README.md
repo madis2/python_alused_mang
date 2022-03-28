@@ -12,3 +12,7 @@ healing - iga mingi aja tagant tuleb healer kellelt saab kindla raha eest healid
 story - 
 traveling
 vaenlase attack muutub randomiga mingis vahemikus (nt peasant_attack = random.randint(1,10))
+
+# Teema
+
+Eesti talupoeg Tõnn läheb otsima kalevipoega, et teada saada tema saladus, kuidas ta nii tugev on.
