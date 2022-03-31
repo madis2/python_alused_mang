@@ -16,7 +16,7 @@ print()
 print()
 print("Credits: Roger Niils, Matis Russi")
 print()
-print("Versioon: 0.8")
+print("Versioon: 0.5")
 print()
 print()
 algus = int(input("[1] Start [2] Exit  "))
@@ -29,25 +29,24 @@ elif algus == 1:
 elif algus == 2:
     exit()
 
-time.sleep(1)
 print("Siin on sinu seikluse algus")
+time.sleep(1)
 print()
+
 
 #### Stats ####
 
 health = 100
-kuld = 10
-attack = 1
-defense = 1
-relv = 0
-mook_dmg = random.randint(15,20)
-protsent = 30
+kuld = 10     # Kulda kasutame me skoorina mida näitame mängu lõpus     
+attack = 1    # Attack muutuja korrutab su damageit ehk kahju, et teeksid rohkem viga vastasele mängu jooksul.
+defense = 0   # See muutuja lisatakse juurde protsendile.
+protsent = 30 # Protsent tõstab bloki õnnestumist.
 
 # Funktsioon valikud võitluse jaoks.
 
 def valikud():
-    print('[1] Ründa vastast.')
-    print('[2] Bloki (30% tõenäosus). ')
+    print(f'[1] Ründa vastast. (Kahju korrutaja {attack}%)')
+    print(f'[2] Bloki ({protsent}% tõenäosus). ')
     print('[3] Ravi end 10 elu võrra.')
     
     valik = int(input('Vali enda tegevus: '))
@@ -55,7 +54,7 @@ def valikud():
 
 # Funktsioon kaklus võitluste jaoks. 
 
-def kaklus(peasant_health, peasant_kuld, peasant_attack):
+def kaklus(peasant_health, peasant_kuld, peasant_attack, xp_attack, xp_defense):
     global health
     global kuld
     global attack
@@ -63,52 +62,46 @@ def kaklus(peasant_health, peasant_kuld, peasant_attack):
     global relv
     global mook_dmg
     global protsent
+    global user_name
     
-    while peasant_health >= 0 and health >= 0:
+    while peasant_health >= 1 and health >= 1:
         valik = valikud()
         
         dmg = random.randint(5,10) # Kahju mis teed vastasele
-        dmg = dmg*attack
+        booster = dmg*attack
         peasant_dmg = random.randint(1,5) # Kahju mis tehakse sulle
         peasant_dmg = peasant_dmg
         
         print('─────────────────────────────────────')
         
         if valik == 1:
-            if relv == 0:
-                if dmg >= 12:
-                    peasant_health -= dmg
-                    health -= peasant_dmg
-                    print(f'Kriitiline löök. Tegid {dmg} kahju')
-                    print(f'Vastane tegi sulle {peasant_dmg} kahju.')
-                    print(f'Sinu elud: {health}')
-                    print(f'Vastase elud: {peasant_health}')
-                    print('─────────────────────────────────────')
-                elif dmg in range(7,11):
-                    peasant_health -= dmg
-                    health -= peasant_dmg
-                    print(f'Hea löök. Tegid {dmg} kahju')
-                    print(f'Vastane tegi sulle {peasant_dmg} kahju.')
-                    print(f'Sinu elud: {health}')
-                    print(f'Vastase elud: {peasant_health}')
-                    print('─────────────────────────────────────')
-                else:
-                    peasant_health -= dmg
-                    health -= peasant_dmg
-                    print(f'Halb löök. Tegid {dmg} kahju')
-                    print(f'Vastane tegi sulle {peasant_dmg} kahju.')
-                    print(f'Sinu elud: {health}')
-                    print(f'Vastase elud: {peasant_health}')
-                    print('─────────────────────────────────────')
-            else:
-                mook_dmg = mook_dmg
-                peasant_health -= mook_dmg
+            if dmg >= 12:
+                peasant_health -= dmg
                 health -= peasant_dmg
-                print(f'Tegid mõõgaga {mook_dmg} kahju.')
+                print(f'Kriitiline löök. Tegid {dmg} kahju')
                 print(f'Vastane tegi sulle {peasant_dmg} kahju.')
                 print(f'Sinu elud: {health}')
                 print(f'Vastase elud: {peasant_health}')
                 print('─────────────────────────────────────')
+                time.sleep(0.5)
+            elif dmg in range(7,11):
+                peasant_health -= dmg
+                health -= peasant_dmg
+                print(f'Hea löök. Tegid {dmg} kahju')
+                print(f'Vastane tegi sulle {peasant_dmg} kahju.')
+                print(f'Sinu elud: {health}')
+                print(f'Vastase elud: {peasant_health}')
+                print('─────────────────────────────────────')
+                time.sleep(0.5)
+            else:
+                peasant_health -= dmg
+                health -= peasant_dmg
+                print(f'Halb löök. Tegid {dmg} kahju')
+                print(f'Vastane tegi sulle {peasant_dmg} kahju.')
+                print(f'Sinu elud: {health}')
+                print(f'Vastase elud: {peasant_health}')
+                print('─────────────────────────────────────')
+                time.sleep(0.5)
         elif valik == 2:
             if random.randint(0,100) > protsent:
                 health -= peasant_dmg
@@ -116,26 +109,38 @@ def kaklus(peasant_health, peasant_kuld, peasant_attack):
                 print(f'Sinu elud: {health}')
                 print(f'Vastase elud: {peasant_health}')
                 print('─────────────────────────────────────')
+                time.sleep(0.5)
             else:
+                blokk = random.randint(1,3)
+                peasant_health -= blokk
+                print(f'Blokiga tegid {blokk} kahju.')
                 print(f'Blokk õnnestus')
+                print(f'Sinu elud: {health}')
+                print(f'Vastase elud: {peasant_health}')
                 print('─────────────────────────────────────')
+                time.sleep(0.5)
         else:
             health += 10
-            peasant_dmg = random.randint(1,10) # Kahju mis tehakse sulle
+            peasant_dmg = random.randint(1,10) 
             health -= peasant_dmg
             print(f'Vastane tegi sulle {peasant_dmg} kahju.')
             print(f'Sinu elud: {health}')
             print('─────────────────────────────────────')
+            time.sleep(0.5)
             
     if peasant_health <= 0:
-        print('Õnnitlen kunn, oled tapnud oma vastase!')
-        kuld += peasant_kuld
+        print(f'Õnnitlen {user_name}, oled tapnud oma vastase!')
+        kuld += peasant_kuld          # Siin lisatakse kõik statid juurde karakterile.
         peasant_kuld -= peasant_kuld
+        attack += xp_attack       
+        defense += xp_defense
+        protsent += defense
+        time.sleep(3)
     else:
         print('Muutusid pedeks ja sind tapeti koha peal!')
         print('The end!')
+        time.sleep(3)
 
-# Võitlus algab
-        
-print('Kohtad kurja talupoega kes tahab rünnata sind.') 
-kaklus(50, random.randint(5,15), 1.5)
+
+
+# Seiklus algab
