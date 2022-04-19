@@ -6,15 +6,6 @@
 import time
 import random
 
-#### Stats ####
-
-health = 100
-kuld = 10     # Kulda kasutame me skoorina mida näitame mängu lõpus     
-attack = 1    # Attack muutuja korrutab su damageit ehk kahju, et teeksid rohkem viga vastasele mängu jooksul.
-defense = 0   # See muutuja lisatakse juurde protsendile.
-protsent = 30 # Protsent tõstab bloki õnnestumist.
-level = 0     # Muutuja mitmendal tasemel mängija on.
-
 #### Menu ####
 
 print()
@@ -35,8 +26,6 @@ if algus == 2:
     
 elif algus == 1:
     user_name = input("Mis on teie karakteri nimi?  ")
-elif algus == 2:
-    exit()
 elif algus == 3:
     with open(f"SAVE.txt", "r")as f:
         for rida in f:
@@ -48,14 +37,40 @@ elif algus == 3:
             defense = int(a[4])
             protsent = int(a[5])
             level = int(a[6])
-    
 
 print(f"Sinu nimi on {user_name}. \nOled otsimas kalevipoega, et leida tema saladus tugevusele.")
 time.sleep(3)
 print()
 
 
+#### Stats ####
 
+health = 100
+kuld = 10     # Kulda kasutame me skoorina mida näitame mängu lõpus     
+attack = 1    # Attack muutuja korrutab su damageit ehk kahju, et teeksid rohkem viga vastasele mängu jooksul.
+defense = 0   # See muutuja lisatakse juurde protsendile.
+protsent = 30 # Protsent tõstab bloki õnnestumist.
+level = 0     # Muutuja mitmendal tasemel mängija on.
+
+# Funktsioon menu tasemete vahel.
+
+def menu():
+    print('[1] Jätka mängu.')
+    print('[2] Lahku mängust (AUTOSAVE).')
+    
+    valik2 = int(input('Vali enda tegevus: '))
+    
+    if valik2 == 2:
+        with open(f"SAVE.txt", "w+")as f: # Siin autosaveib mäng statid.
+            f.write(f"{user_name} ")
+            f.write(f"{health} ")
+            f.write(f"{kuld} ")
+            f.write(f"{attack} ")
+            f.write(f"{defense} ")
+            f.write(f"{protsent} ")
+            f.write(f"{level} ")
+        
+        exit()
 
 # Funktsioon valikud võitluse jaoks.
 
@@ -151,7 +166,8 @@ def kaklus(peasant_health, peasant_kuld, peasant_attack, xp_attack, xp_defense):
         defense += xp_defense         # Siin lisatakse juurde vastaseld saadud defense level
         protsent += defense           # Saadud defense level listakase juurde protsendile
         time.sleep(3)
-        with open(f"SAVE.txt", "w+")as f:
+        
+        with open(f"SAVE.txt", "w+")as f: # Siin autosaveib mäng statid.
             f.write(f"{user_name} ")
             f.write(f"{health} ")
             f.write(f"{kuld} ")
@@ -159,12 +175,14 @@ def kaklus(peasant_health, peasant_kuld, peasant_attack, xp_attack, xp_defense):
             f.write(f"{defense} ")
             f.write(f"{protsent} ")
             f.write(f"{level} ")
-        
+             
     else:
         print('Muutusid pedeks ja sind tapeti koha peal!')
         print('The end!')
         time.sleep(3)
         exit()
+
+# Mäng algab.
 
 if level == 0:
     print('TASE 1')
@@ -186,6 +204,8 @@ if level == 0:
     print('+0.05 ATTACK')
     print('+1% DEFENSE')
     level += 1
+    time.sleep(3)
+    menu()
     print()
     
     
@@ -220,6 +240,8 @@ if level == 1:
     
     print('+0.07 ATTACK')
     print('+4% DEFENSE')
+    time.sleep(3)
+    menu()
     print()
     
 if level == 2:
@@ -247,6 +269,8 @@ if level == 2:
     time.sleep(2)
     print('+0.1 ATTACK')
     print('+3% DEFENSE')
+    time.sleep(3)
+    menu()
     print()
     level += 1
 
@@ -257,7 +281,7 @@ if level == 3:
     time.sleep(2)
     print('Leiad posteri kus tuleb välja, et oled pärast eelnevaid mõrvu \nkuulutatud tagaotsitavaks')
     time.sleep(3)
-    print('Sinu mõrvamise autasu on {kuld}')
+    print(f'Sinu mõrvamise autasu on {kuld}')
     time.sleep(2)
     print('Kõnnid edasi mitte midagi arvates sellest.')
     time.sleep(2)
@@ -278,4 +302,69 @@ if level == 3:
     print('Mõtled endaviisi, et hakkad lähemale jõudma kalevipojale.')
     print('+0.5 ATTACK')
     print('+7% DEFENSE')
+    time.sleep(3)
+    menu()
     print()
+    
+if level == 4:
+    print('TASE 5')
+    print('─────────────────────────────────────')
+    print(f'Läbisid {random.randint(50,150)} kilomeetrit.')
+    time.sleep(2)
+    print('Näed kaugelt suurt mehikest kuid ')
+    time.sleep(3)
+    print('Sulle tuleb vastu kalevipoja alluv.')
+    time.sleep(2)
+    print('"Kes sa selline oled?"')
+    print()
+    print('"Soovin kalevipojaga rääkida."')
+    time.sleep(3)
+    print('Keegi ei räägi temaga peale minu.')
+    print('"Pead ennem minust läbi saama."')
+    time.sleep(3)
+    print('Alustad võitlust kalevipoja alluvaga.')
+    print('Ta alluv tundub tugev. Eeldan, et kalevipoeg on veel tugevam.')
+    
+    kaklus(120, random.randint(30,50), 10, 1.0, 10)
+    
+    time.sleep(2)
+    print('"Oled minust tugevam. Austan seda."')
+    time.sleep(2)
+    print('Oled valmistunud kalevipoja saladust lahti arutama.')
+    print('+1 ATTACK')
+    print('+10% DEFENSE')
+    time.sleep(3)
+    menu()
+    print()
+
+if level == 5:
+    print('TASE 6')
+    print('─────────────────────────────────────')
+    print(f'Oled jõudnud sihtpunkti.')
+    time.sleep(2)
+    print("Lähed vestled kalevipojaga.")
+    time.sleep(3)
+    print("Ta ei ole nõus saladust väljastama ennem kui temaga võitled.")
+    time.sleep(3)
+    print('Alustad poolsõbralikku kaklust kalevipojaga.')
+    kaklus(175, random.randint(50,100), 15, 5, 20)
+    
+    time.sleep(3)
+    print('"Hah. Tegelikult polegi mul saladust."')
+    time.sleep(3)
+    print('Olen lihtsalt saavutanud tugevuse sünnist alates kakeldes ja töö tegemisega.')
+    time.sleep(3)
+    print('Kalevipoja "saladus" valmistab sulle pettumust ning lahkud.')
+    time.sleep(3)
+    
+    
+    
+    print()
+    print("--------------------")
+    print("MÄNG LÄBI!")
+    print("--------------------")
+    print(f'SKOOR: {kuld}')
+    print("--------------------")
+    print()
+    print("Credits: Roger Niils, Matis Russi")
+    print() 
